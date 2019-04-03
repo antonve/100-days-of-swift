@@ -62,6 +62,12 @@ class ViewController: UIViewController {
     
     var letterButtons = [UIButton]()
 
+    var activatedButtons = [UIButton]()
+    var solutions = [String]()
+
+    var score = 0
+    var level = 1
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -69,6 +75,9 @@ class ViewController: UIViewController {
         setupViewConstraints()
         
         setupButtons()
+        setupInteraction()
+
+        loadLevel()
     }
     
     func setupView() {
@@ -137,4 +146,54 @@ class ViewController: UIViewController {
             }
         }
     }
+
+    func setupInteraction() {
+        submitButton.addTarget(self, action: #selector(submitTapped), for: .touchUpInside)
+        submitButton.addTarget(self, action: #selector(submitTapped), for: .touchUpInside)
+
+        for button in letterButtons {
+            button.addTarget(self, action: #selector(letterTapped), for: .touchUpInside)
+        }
+    }
+
+    func loadLevel() {
+        var clueString = ""
+        var solutionString = ""
+        var letterBits = [String]()
+
+        guard let levelFileURL = Bundle.main.url(forResource: "level\(level)", withExtension: "txt") else { return }
+        guard let levelContents = try? String(contentsOf: levelFileURL) else { return }
+
+        let lines = levelContents.components(separatedBy: "\n").shuffled()
+
+        for (index, line) in lines.enumerated() {
+            let parts = line.components(separatedBy: ": ")
+            let answer = parts[0]
+            let clue = parts[1]
+
+            clueString += "\(index + 1). \(clue)\n"
+
+            let solutionWord = answer.replacingOccurrences(of: "|", with: "")
+            solutionString += "\(solutionWord.count) characters \n"
+            solutions.append(solutionWord)
+
+            let bits = answer.components(separatedBy: "|")
+            letterBits += bits
+        }
+
+        letterBits.shuffle()
+
+        guard letterBits.count == letterButtons.count else { return }
+
+        for i in 0 ..< letterButtons.count {
+            letterButtons[i].setTitle(letterBits[i], for: .normal)
+            letterButtons[i].addTarget(self, action: #selector(letterTapped), for: .touchUpInside)
+        }
+    }
+
+    @objc func letterTapped() {}
+
+    @objc func submitTapped() {}
+
+    @objc func clearTapped() {}
 }
