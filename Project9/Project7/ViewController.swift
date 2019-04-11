@@ -83,10 +83,12 @@ class ViewController: UITableViewController {
             title = nil
         }
         
-        filterResults()
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            self?.filterResults()
 
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.reloadData()
+            }
         }
     }
     
