@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = UIFont.systemFont(ofSize: 44)
-        textField.text = "Tap letters to guess..."
+        textField.placeholder = "Tap letters to guess..."
         textField.isUserInteractionEnabled = false
         textField.textAlignment = .center
         return textField
