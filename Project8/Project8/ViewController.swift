@@ -68,6 +68,7 @@ class ViewController: UIViewController {
 
     var activatedButtons = [UIButton]()
     var solutions = [String]()
+    var usedSolutions = [String]()
 
     var score = 0 {
         didSet {
@@ -166,6 +167,8 @@ class ViewController: UIViewController {
     }
 
     func loadLevel() {
+        usedSolutions.removeAll()
+
         var clueString = ""
         var solutionString = ""
         var letterBits = [String]()
@@ -216,6 +219,7 @@ class ViewController: UIViewController {
         guard let solutionPosition = solutions.firstIndex(of: answerText) else {
             let ac = UIAlertController(title: "Too bad!", message: "This answer was incorrect.", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Let's try again", style: .default, handler: { [weak self] _ in
+                self?.score -= 1
                 self?.clearTapped()
             }))
             present(ac, animated: true)
@@ -224,6 +228,7 @@ class ViewController: UIViewController {
         }
 
         activatedButtons.removeAll()
+        usedSolutions.append(answerText)
 
         answersLabel.text = answersLabel
             .text?
@@ -256,7 +261,7 @@ class ViewController: UIViewController {
     func increaseScore() {
         score += 1
 
-        if score % 7 == 0 {
+        if solutions.count == usedSolutions.count {
             let ac = UIAlertController(title: "Well done!", message: "Are you ready for the next level?", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Let's go!", style: .default, handler: levelUp))
             present(ac, animated: true)
