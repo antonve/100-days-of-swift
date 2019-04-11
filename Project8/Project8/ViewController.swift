@@ -190,13 +190,66 @@ class ViewController: UIViewController {
 
         for i in 0 ..< letterButtons.count {
             letterButtons[i].setTitle(letterBits[i], for: .normal)
-            letterButtons[i].addTarget(self, action: #selector(letterTapped), for: .touchUpInside)
+            letterButtons[i].isHidden = false
         }
     }
 
-    @objc func letterTapped() {}
+    @objc func letterTapped(_ sender: UIButton) {
+        guard let buttonTitle = sender.titleLabel?.text else { return }
 
-    @objc func submitTapped() {}
+        currentAnswer.text = currentAnswer.text?.appending(buttonTitle)
+        activatedButtons.append(sender)
+        sender.isHidden = true
+    }
 
-    @objc func clearTapped() {}
+    @objc func submitTapped() {
+        guard let answerText = currentAnswer.text else { return }
+        guard let solutionPosition = solutions.firstIndex(of: answerText) else { return }
+
+        activatedButtons.removeAll()
+
+        answersLabel.text = answersLabel
+            .text?
+            .components(separatedBy: "\n")
+            .enumerated()
+            .map { (index, text) in
+                if index == solutionPosition {
+                    return answerText
+                }
+
+                return text
+            }
+            .joined(separator: "\n")
+
+        currentAnswer.text = ""
+
+        increaseScore()
+    }
+
+    @objc func clearTapped() {
+        currentAnswer.text = ""
+
+        for button in activatedButtons {
+            button.isHidden = false
+        }
+
+        activatedButtons.removeAll()
+    }
+
+    func increaseScore() {
+        score += 1
+
+        if score % 7 == 0 {
+            let ac = UIAlertController(title: "Well done!", message: "Are you ready for the next level?", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Let's go!", style: .default, handler: levelUp))
+            present(ac, animated: true)
+        }
+    }
+
+    func levelUp(action: UIAlertAction) {
+        level += 1
+        solutions.removeAll(keepingCapacity: true)
+
+        loadLevel()
+    }
 }
