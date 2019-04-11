@@ -57,6 +57,10 @@ class ViewController: UIViewController {
     let buttonsView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.borderColor = UIColor.gray.cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 8
+        view.clipsToBounds = true
         return view
     }()
     
