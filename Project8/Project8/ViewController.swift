@@ -213,7 +213,15 @@ class ViewController: UIViewController {
 
     @objc func submitTapped() {
         guard let answerText = currentAnswer.text else { return }
-        guard let solutionPosition = solutions.firstIndex(of: answerText) else { return }
+        guard let solutionPosition = solutions.firstIndex(of: answerText) else {
+            let ac = UIAlertController(title: "Too bad!", message: "This answer was incorrect.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Let's try again", style: .default, handler: { [weak self] _ in
+                self?.clearTapped()
+            }))
+            present(ac, animated: true)
+
+            return
+        }
 
         activatedButtons.removeAll()
 
