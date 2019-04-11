@@ -9,6 +9,10 @@ class ViewController: UITableViewController {
         title = "Storm viewer"
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        DispatchQueue.global(qos: .userInitiated).async(execute: loadImages)
+    }
+
+    func loadImages() {
         let fm = FileManager.default
         let bundlePath = Bundle.main.resourcePath!
 
@@ -17,6 +21,10 @@ class ViewController: UITableViewController {
                 $0.hasPrefix("nssl")
             }
             .sorted()
+
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
