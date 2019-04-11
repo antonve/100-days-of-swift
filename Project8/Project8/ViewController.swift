@@ -167,43 +167,52 @@ class ViewController: UIViewController {
     }
 
     func loadLevel() {
-        usedSolutions.removeAll()
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self = self else { return }
 
-        var clueString = ""
-        var solutionString = ""
-        var letterBits = [String]()
+            self.usedSolutions.removeAll()
 
-        guard let levelFileURL = Bundle.main.url(forResource: "level\(level)", withExtension: "txt") else { return }
-        guard let levelContents = try? String(contentsOf: levelFileURL) else { return }
+            var clueString = ""
+            var solutionString = ""
+            var letterBits = [String]()
 
-        let lines = levelContents.components(separatedBy: "\n").shuffled()
+            guard let levelFileURL = Bundle.main.url(forResource: "level\(self.level)", withExtension: "txt") else { return }
+            guard let levelContents = try? String(contentsOf: levelFileURL) else { return }
 
-        for (index, line) in lines.enumerated() {
-            let parts = line.components(separatedBy: ": ")
-            let answer = parts[0]
-            let clue = parts[1]
+            let lines = levelContents.components(separatedBy: "\n").shuffled()
 
-            clueString += "\(index + 1). \(clue)\n"
+            for (index, line) in lines.enumerated() {
+                let parts = line.components(separatedBy: ": ")
+                let answer = parts[0]
+                let clue = parts[1]
 
-            let solutionWord = answer.replacingOccurrences(of: "|", with: "")
-            solutionString += "\(solutionWord.count) characters \n"
-            solutions.append(solutionWord)
+                clueString += "\(index + 1). \(clue)\n"
 
-            let bits = answer.components(separatedBy: "|")
-            letterBits += bits
+                let solutionWord = answer.replacingOccurrences(of: "|", with: "")
+                solutionString += "\(solutionWord.count) characters \n"
+                self.solutions.append(solutionWord)
+
+                let bits = answer.components(separatedBy: "|")
+                letterBits += bits
+            }
+
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+
+                self.cluesLabel.text = clueString.trimmingCharacters(in: .whitespacesAndNewlines)
+                self.answersLabel.text = solutionString.trimmingCharacters(in: .whitespacesAndNewlines)
+
+                letterBits.shuffle()
+
+                guard letterBits.count == self.letterButtons.count else { return }
+
+                for i in 0 ..< self.letterButtons.count {
+                    self.letterButtons[i].setTitle(letterBits[i], for: .normal)
+                    self.letterButtons[i].isHidden = false
+                }
+            }
         }
 
-        cluesLabel.text = clueString.trimmingCharacters(in: .whitespacesAndNewlines)
-        answersLabel.text = solutionString.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        letterBits.shuffle()
-
-        guard letterBits.count == letterButtons.count else { return }
-
-        for i in 0 ..< letterButtons.count {
-            letterButtons[i].setTitle(letterBits[i], for: .normal)
-            letterButtons[i].isHidden = false
-        }
     }
 
     @objc func letterTapped(_ sender: UIButton) {
