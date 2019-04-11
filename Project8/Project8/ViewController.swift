@@ -149,7 +149,7 @@ class ViewController: UIViewController {
 
     func setupInteraction() {
         submitButton.addTarget(self, action: #selector(submitTapped), for: .touchUpInside)
-        submitButton.addTarget(self, action: #selector(submitTapped), for: .touchUpInside)
+        clearButton.addTarget(self, action: #selector(clearTapped), for: .touchUpInside)
 
         for button in letterButtons {
             button.addTarget(self, action: #selector(letterTapped), for: .touchUpInside)
@@ -180,6 +180,9 @@ class ViewController: UIViewController {
             let bits = answer.components(separatedBy: "|")
             letterBits += bits
         }
+
+        cluesLabel.text = clueString.trimmingCharacters(in: .whitespacesAndNewlines)
+        answersLabel.text = solutionString.trimmingCharacters(in: .whitespacesAndNewlines)
 
         letterBits.shuffle()
 
