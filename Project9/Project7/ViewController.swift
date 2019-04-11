@@ -11,6 +11,16 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
+        DispatchQueue.global(qos: .userInitiated).async(execute: fetch)
+
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(title: "Credits", style: .plain, target: self, action: #selector(showCredits)),
+            UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showSearch)),
+        ]
+    }
+
+    func fetch() {
         let variation = (navigationController?.tabBarItem.tag ?? 0) + 1
         
         // let urlString = "https://api.whitehouse.gov/v1/petitions.json?limit=100"
@@ -19,11 +29,6 @@ class ViewController: UITableViewController {
         guard let url = URL(string: urlString) else { showError(); return }
         guard let data = try? Data(contentsOf: url) else { showError(); return }
         parse(json: data)
-        
-        navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(title: "Credits", style: .plain, target: self, action: #selector(showCredits)),
-            UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showSearch)),
-        ]
     }
     
     @objc func showSearch() {
