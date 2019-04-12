@@ -72,7 +72,11 @@ class ViewController: UIViewController {
     }
 
     func die() {
-
+        let ac = UIAlertController(title: "Aww, you've ran out of lives!", message: "The word we were looking for was \(currentWord)", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Try again", style: .default, handler: { [weak self] _ in
+            self?.loadWords()
+        }))
+        present(ac, animated: true)
     }
 
     @objc func submitTapped() {
