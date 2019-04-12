@@ -40,12 +40,21 @@
                                 </constraints>
                                 <state key="normal" title="Submit"/>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lives" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lii-Jb-gRL" userLabel="Lives Label">
+                                <rect key="frame" x="0.0" y="108" width="394" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Lii-Jb-gRL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="4ED-98-QIq"/>
                             <constraint firstItem="I6g-Xo-hGX" firstAttribute="leading" secondItem="FdV-NS-s1B" secondAttribute="trailing" constant="8" id="5aJ-cX-btd"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Lii-Jb-gRL" secondAttribute="trailing" constant="20" id="9bj-xI-kKy"/>
                             <constraint firstItem="pZZ-YK-q7c" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Qc9-GB-Hou"/>
                             <constraint firstItem="I6g-Xo-hGX" firstAttribute="centerY" secondItem="FdV-NS-s1B" secondAttribute="centerY" id="b8f-ue-OAq"/>
+                            <constraint firstItem="Lii-Jb-gRL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="jU9-qB-Hea"/>
                             <constraint firstItem="FdV-NS-s1B" firstAttribute="top" secondItem="pZZ-YK-q7c" secondAttribute="bottom" constant="20" id="keS-Qw-uka"/>
                             <constraint firstItem="pZZ-YK-q7c" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="55" id="md9-ez-uep"/>
                             <constraint firstItem="FdV-NS-s1B" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" constant="-40" id="vlN-4T-YFg"/>
@@ -56,6 +65,7 @@
                     <navigationItem key="navigationItem" id="d09-lb-LBy"/>
                     <connections>
                         <outlet property="guessInput" destination="FdV-NS-s1B" id="lUf-Wn-vqc"/>
+                        <outlet property="livesLabel" destination="Lii-Jb-gRL" id="WcL-0q-ll8"/>
                         <outlet property="submitButton" destination="I6g-Xo-hGX" id="QaE-67-FFa"/>
                         <outlet property="wordLabel" destination="pZZ-YK-q7c" id="nVW-mM-AqS"/>
                     </connections>

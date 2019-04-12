@@ -4,10 +4,18 @@ class ViewController: UIViewController {
     @IBOutlet var wordLabel: UILabel!
     @IBOutlet var guessInput: UITextField!
     @IBOutlet var submitButton: UIButton!
+    @IBOutlet var livesLabel: UILabel!
 
     var words = [String]()
     var currentWord = ""
     var guessedLetters = [String]()
+    var lives = 0 {
+        didSet {
+            DispatchQueue.main.async {
+                self.livesLabel.text = "Lives: \(self.lives)"
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,23 +39,22 @@ class ViewController: UIViewController {
             guard let words = try? String(contentsOf: url) else { return }
 
             self.words = words.components(separatedBy: "\n")
-            self.loadNewWord()
+            DispatchQueue.main.async(execute: self.loadNewWord)
         }
     }
 
     func loadNewWord() {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let self = self else { return }
-            guard let newWord = self.words.randomElement() else {
-                self.showFinished();
-                return
-            }
-
-            self.currentWord = newWord
-            self.guessedLetters.removeAll(keepingCapacity: true)
-
-            DispatchQueue.main.async(execute: self.updateWordLabel)
+        guard let newWord = self.words.randomElement() else {
+            showFinished();
+            return
         }
+
+        currentWord = newWord
+        guessedLetters.removeAll(keepingCapacity: true)
+
+        lives = currentWord.count
+
+        updateWordLabel()
     }
 
     func updateWordLabel() {
@@ -64,12 +71,26 @@ class ViewController: UIViewController {
         print("finished")
     }
 
+    func die() {
+
+    }
+
     @objc func submitTapped() {
         guard let character = guessInput.text?.uppercased()  else { return }
+        guard character != "" else { return }
+
         guessInput.text = ""
 
         if guessedLetters.contains(character) {
             return
+        }
+
+        if !currentWord.uppercased().contains(character) {
+            lives -= 1
+        }
+
+        if lives == 0 {
+            die()
         }
 
         guessedLetters.append(character)
