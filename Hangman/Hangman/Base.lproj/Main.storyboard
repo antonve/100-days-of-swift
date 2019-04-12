@@ -25,7 +25,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="38" translatesAutoresizingMaskIntoConstraints="NO" id="FdV-NS-s1B">
-                                <rect key="frame" x="182" y="163" width="50" height="50"/>
+                                <rect key="frame" x="142" y="163" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="bLP-zE-Hd8"/>
                                 </constraints>
@@ -33,13 +33,22 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="38"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I6g-Xo-hGX">
+                                <rect key="frame" x="200" y="173" width="80" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="7bY-IZ-1y6"/>
+                                </constraints>
+                                <state key="normal" title="Submit"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="I6g-Xo-hGX" firstAttribute="leading" secondItem="FdV-NS-s1B" secondAttribute="trailing" constant="8" id="5aJ-cX-btd"/>
                             <constraint firstItem="pZZ-YK-q7c" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Qc9-GB-Hou"/>
+                            <constraint firstItem="I6g-Xo-hGX" firstAttribute="centerY" secondItem="FdV-NS-s1B" secondAttribute="centerY" id="b8f-ue-OAq"/>
                             <constraint firstItem="FdV-NS-s1B" firstAttribute="top" secondItem="pZZ-YK-q7c" secondAttribute="bottom" constant="20" id="keS-Qw-uka"/>
                             <constraint firstItem="pZZ-YK-q7c" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="55" id="md9-ez-uep"/>
-                            <constraint firstItem="FdV-NS-s1B" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="vlN-4T-YFg"/>
+                            <constraint firstItem="FdV-NS-s1B" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" constant="-40" id="vlN-4T-YFg"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pZZ-YK-q7c" secondAttribute="trailing" constant="20" id="yyT-yw-UHf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -47,6 +56,7 @@
                     <navigationItem key="navigationItem" id="d09-lb-LBy"/>
                     <connections>
                         <outlet property="guessInput" destination="FdV-NS-s1B" id="lUf-Wn-vqc"/>
+                        <outlet property="submitButton" destination="I6g-Xo-hGX" id="QaE-67-FFa"/>
                         <outlet property="wordLabel" destination="pZZ-YK-q7c" id="nVW-mM-AqS"/>
                     </connections>
                 </viewController>

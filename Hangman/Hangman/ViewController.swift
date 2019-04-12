@@ -2,12 +2,12 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet var wordLabel: UILabel!
-
     @IBOutlet var guessInput: UITextField!
+    @IBOutlet var submitButton: UIButton!
 
     var words = [String]()
     var currentWord = ""
-    var guessedLetters = [Character]()
+    var guessedLetters = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +20,8 @@ class ViewController: UIViewController {
         guessInput.delegate = self
         title = "Hangman"
         navigationController?.navigationBar.prefersLargeTitles = true
+
+        submitButton.addTarget(self, action: #selector(submitTapped), for: .touchUpInside)
     }
 
     func loadWords() {
@@ -51,7 +53,8 @@ class ViewController: UIViewController {
     func updateWordLabel() {
         wordLabel.text = Array(currentWord)
             .map { char in
-                guessedLetters.contains(char) ? String(char) : "_"
+                let letter = String(char).uppercased()
+                return guessedLetters.contains(letter) ? letter : "_"
             }
             .joined(separator: " ")
     }
@@ -59,6 +62,22 @@ class ViewController: UIViewController {
     func showFinished() {
         // TODO: IMPLEMENT THIS
         print("finished")
+    }
+
+    @objc func submitTapped() {
+        guard let character = guessInput.text?.uppercased()  else { return }
+        guessInput.text = ""
+
+        if guessedLetters.contains(character) {
+            return
+        }
+
+        guessedLetters.append(character)
+        updateWordLabel()
+
+        if let text = wordLabel.text, !text.contains("_") {
+            loadNewWord()
+        }
     }
 }
 
