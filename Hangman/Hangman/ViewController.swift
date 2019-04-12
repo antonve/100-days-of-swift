@@ -67,8 +67,11 @@ class ViewController: UIViewController {
     }
 
     func showFinished() {
-        // TODO: IMPLEMENT THIS
-        print("finished")
+        let ac = UIAlertController(title: "Wow!", message: "You've managed to find all words!", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Play again", style: .default, handler: { [weak self] _ in
+            self?.loadWords()
+        }))
+        present(ac, animated: true)
     }
 
     func die() {
