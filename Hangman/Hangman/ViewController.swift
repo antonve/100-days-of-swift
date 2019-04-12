@@ -38,13 +38,13 @@ class ViewController: UIViewController {
             guard let url = Bundle.main.url(forResource: "words", withExtension: "txt") else { return }
             guard let words = try? String(contentsOf: url) else { return }
 
-            self.words = words.components(separatedBy: "\n")
+            self.words = words.components(separatedBy: "\n").filter { !$0.isEmpty }
             DispatchQueue.main.async(execute: self.loadNewWord)
         }
     }
 
     func loadNewWord() {
-        guard let newWord = self.words.randomElement() else {
+        guard let newWord = words.randomElement() else {
             showFinished();
             return
         }
@@ -52,13 +52,17 @@ class ViewController: UIViewController {
         currentWord = newWord
         guessedLetters.removeAll(keepingCapacity: true)
 
+        words.removeAll(where: {
+            $0 == currentWord
+        })
+
         lives = currentWord.count
 
-        updateWordLabel()
+        wordLabel.text = maskedWord()
     }
 
-    func updateWordLabel() {
-        wordLabel.text = Array(currentWord)
+    func maskedWord() -> String {
+        return Array(currentWord)
             .map { char in
                 let letter = String(char).uppercased()
                 return guessedLetters.contains(letter) ? letter : "_"
@@ -82,6 +86,14 @@ class ViewController: UIViewController {
         present(ac, animated: true)
     }
 
+    func showCorrect() {
+        let ac = UIAlertController(title: "Fuck yeah!", message: "As you already know, the final word was \(currentWord).", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Next please!", style: .default, handler: { [weak self] _ in
+            self?.loadNewWord()
+        }))
+        present(ac, animated: true)
+    }
+
     @objc func submitTapped() {
         guard let character = guessInput.text?.uppercased()  else { return }
         guard character != "" else { return }
@@ -101,13 +113,15 @@ class ViewController: UIViewController {
         }
 
         guessedLetters.append(character)
-        updateWordLabel()
+        let word = maskedWord()
 
-        if let text = wordLabel.text, !text.contains("_") {
+        if !word.contains("_") {
+            showCorrect()
             guessedLetters.removeAll(keepingCapacity: true)
-            words.removeAll(where: { $0 == currentWord })
             loadNewWord()
         }
+
+        wordLabel.text = word
     }
 }
 
