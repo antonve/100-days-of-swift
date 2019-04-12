@@ -18,6 +18,8 @@ class ViewController: UIViewController {
 
     func setupView() {
         guessInput.delegate = self
+        title = "Hangman"
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
 
     func loadWords() {
