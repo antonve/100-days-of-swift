@@ -3,6 +3,8 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet var wordLabel: UILabel!
 
+    @IBOutlet var guessInput: UITextField!
+
     var words = [String]()
     var currentWord = ""
     var guessedLetters = [Character]()
@@ -10,7 +12,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupView()
         loadWords()
+    }
+
+    func setupView() {
+        guessInput.delegate = self
     }
 
     func loadWords() {
@@ -50,5 +57,18 @@ class ViewController: UIViewController {
     func showFinished() {
         // TODO: IMPLEMENT THIS
         print("finished")
+    }
+}
+
+extension ViewController: UITextFieldDelegate {
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        guard let text = textField.text else { return true }
+
+        let newLength = text.count + string.count - range.length
+        return newLength <= 1
     }
 }
