@@ -104,6 +104,8 @@ class ViewController: UIViewController {
         updateWordLabel()
 
         if let text = wordLabel.text, !text.contains("_") {
+            guessedLetters.removeAll(keepingCapacity: true)
+            words.removeAll(where: { $0 == currentWord })
             loadNewWord()
         }
     }
