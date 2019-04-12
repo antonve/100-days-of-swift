@@ -5,6 +5,7 @@ class ViewController: UIViewController {
 
     var words = [String]()
     var currentWord = ""
+    var guessedLetters = [Character]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,13 +33,18 @@ class ViewController: UIViewController {
             }
 
             self.currentWord = newWord
+            self.guessedLetters.removeAll(keepingCapacity: true)
 
             DispatchQueue.main.async(execute: self.updateWordLabel)
         }
     }
 
     func updateWordLabel() {
-        wordLabel.text = currentWord
+        wordLabel.text = Array(currentWord)
+            .map { char in
+                guessedLetters.contains(char) ? String(char) : "_"
+            }
+            .joined(separator: " ")
     }
 
     func showFinished() {
