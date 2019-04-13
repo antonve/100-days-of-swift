@@ -45,6 +45,10 @@
                                     </subviews>
                                 </view>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="imageView" destination="QAc-EC-yL0" id="HmI-Ip-CR7"/>
+                                    <outlet property="nameLabel" destination="kEN-Ki-VgW" id="yVM-Lj-cnm"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>
