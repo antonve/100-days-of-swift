@@ -43,6 +43,18 @@ class ViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let person = people[indexPath.item]
 
+        let ac = UIAlertController(title: "Do you want to rename this person?", message: nil, preferredStyle: .alert)
+
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        ac.addAction(UIAlertAction(title: "Yes", style: .default) { [weak self, weak person] _ in
+            guard let person = person else { return }
+            self?.renamePersonDialog(person)
+        })
+
+        present(ac, animated: true)
+    }
+
+    func renamePersonDialog(_ person: Person) {
         let ac = UIAlertController(title: "Rename person", message: nil, preferredStyle: .alert)
         ac.addTextField()
 
