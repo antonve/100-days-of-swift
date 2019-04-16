@@ -1,6 +1,8 @@
 import UIKit
 
 class ViewController: UICollectionViewController {
+    var people = [Person]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,6 +39,10 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         if let jpegData = image.jpegData(compressionQuality: 0.8) {
             try? jpegData.write(to: imagePath)
         }
+
+        let person = Person(name: "idk", image: imageName)
+        people.append(person)
+        collectionView.reloadData()
 
         dismiss(animated: true)
     }
