@@ -102,6 +102,7 @@ class GameScene: SKScene {
         ball.physicsBody?.contactTestBitMask = ball.physicsBody?.collisionBitMask ?? 0
         ball.position = position
         ball.name = "ball"
+        ball.zPosition = 3
         addChild(ball)
     }
 
@@ -168,6 +169,12 @@ extension GameScene: SKPhysicsContactDelegate {
     }
 
     func destroy(ball: SKNode) {
+        if let fireParticles = SKEmitterNode(fileNamed: "FireParticles") {
+            fireParticles.position = ball.position
+            fireParticles.zPosition = 5
+            addChild(fireParticles)
+        }
+
         ball.removeFromParent()
     }
 }
