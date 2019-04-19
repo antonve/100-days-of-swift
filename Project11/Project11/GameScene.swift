@@ -60,6 +60,13 @@ class GameScene: SKScene {
         guard let touch = touches.first else { return }
         let location = touch.location(in: self)
 
+        let objects = nodes(at: location)
+
+        if objects.contains(editLabel) {
+            editingMode.toggle()
+            return
+        }
+
         let ball = SKSpriteNode(imageNamed: "ballRed")
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2.0)
         ball.physicsBody?.restitution = 0.4
