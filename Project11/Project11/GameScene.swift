@@ -100,7 +100,7 @@ class GameScene: SKScene {
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2.0)
         ball.physicsBody?.restitution = 0.4
         ball.physicsBody?.contactTestBitMask = ball.physicsBody?.collisionBitMask ?? 0
-        ball.position = position
+        ball.position = CGPoint(x: position.x, y: 700)
         ball.name = "ball"
         ball.zPosition = 3
         addChild(ball)
