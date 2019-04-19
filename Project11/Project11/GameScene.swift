@@ -32,6 +32,8 @@ class GameScene: SKScene {
         }
     }
 
+    var balls = 5
+
     override func didMove(to view: SKView) {
         let background = SKSpriteNode(imageNamed: "background")
         background.position = CGPoint(x: 512, y: 384)
@@ -86,6 +88,7 @@ class GameScene: SKScene {
 
         box.zRotation = CGFloat.random(in: 0...3)
         box.position = position
+        box.name = "pin"
 
         box.physicsBody = SKPhysicsBody(rectangleOf: box.size)
         box.physicsBody?.isDynamic = false
@@ -96,6 +99,10 @@ class GameScene: SKScene {
     }
 
     func createBall(at position: CGPoint) {
+        guard balls > 0 else { return }
+
+        balls -= 1
+
         let ball = SKSpriteNode(imageNamed: randomBallImageName())
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2.0)
         ball.physicsBody?.restitution = 0.4
@@ -167,6 +174,10 @@ extension GameScene: SKPhysicsContactDelegate {
             collision(between: nodeA, object: nodeB)
         case ("good", "ball"), ("bad", "ball"):
             collision(between: nodeB, object: nodeA)
+        case ("ball", "pin"):
+            destroy(ball: nodeB)
+        case ("pin", "ball"):
+            destroy(ball: nodeA)
         default:
             return
         }
