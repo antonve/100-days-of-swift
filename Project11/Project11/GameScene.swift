@@ -74,6 +74,7 @@ class GameScene: SKScene {
         bouncer.position = position
         bouncer.physicsBody = SKPhysicsBody(circleOfRadius: bouncer.size.width / 2.0)
         bouncer.physicsBody?.isDynamic = false
+        bouncer.zPosition = 2
         addChild(bouncer)
     }
 
@@ -85,10 +86,12 @@ class GameScene: SKScene {
         slotBase.name = slotType.lowercased()
         slotBase.physicsBody = SKPhysicsBody(rectangleOf: slotBase.size)
         slotBase.physicsBody?.isDynamic = false
+        slotBase.zPosition = 1
         addChild(slotBase)
 
         let slotGlow = SKSpriteNode(imageNamed: "slotGlow\(slotType)")
         slotGlow.position = position
+        slotGlow.zPosition = 1
         addChild(slotGlow)
 
         let spin = SKAction.rotate(byAngle: .pi, duration: 10)
