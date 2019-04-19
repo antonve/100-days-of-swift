@@ -67,7 +67,11 @@ class GameScene: SKScene {
             return
         }
 
-        createBall(at: location)
+        if editingMode {
+            // Create a box
+        } else {
+            createBall(at: location)
+        }
     }
 
     func createBall(at position: CGPoint) {
