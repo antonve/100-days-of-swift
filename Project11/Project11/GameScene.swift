@@ -149,9 +149,9 @@ extension GameScene: SKPhysicsContactDelegate {
         switch (nodeA.name, nodeB.name) {
         case ("ball", "ball"):
             return
-        case ("ball", _):
+        case ("ball", "good"), ("ball", "bad"):
             collision(between: nodeA, object: nodeB)
-        case (_, "ball"):
+        case ("good", "ball"), ("bad", "ball"):
             collision(between: nodeB, object: nodeA)
         default:
             return
