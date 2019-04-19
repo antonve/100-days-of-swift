@@ -67,11 +67,15 @@ class GameScene: SKScene {
             return
         }
 
+        createBall(at: location)
+    }
+
+    func createBall(at position: CGPoint) {
         let ball = SKSpriteNode(imageNamed: "ballRed")
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2.0)
         ball.physicsBody?.restitution = 0.4
         ball.physicsBody?.contactTestBitMask = ball.physicsBody?.collisionBitMask ?? 0
-        ball.position = location
+        ball.position = position
         ball.name = "ball"
         addChild(ball)
     }
