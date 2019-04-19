@@ -187,6 +187,7 @@ extension GameScene: SKPhysicsContactDelegate {
         if object.name == "good" {
             destroy(ball: ball)
             score += 1
+            balls += 1
         } else if object.name == "bad" {
             destroy(ball: ball)
             score -= 1
