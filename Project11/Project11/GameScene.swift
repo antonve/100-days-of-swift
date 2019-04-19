@@ -9,9 +9,26 @@ class GameScene: SKScene {
         return label
     }()
 
+    let editLabel: SKLabelNode = {
+       let label = SKLabelNode(fontNamed: "Chalkduster")
+        label.text = "Edit"
+        label.position = CGPoint(x: 80, y: 700)
+        return label
+    }()
+
     var score = 0 {
         didSet {
             scoreLabel.text = "Score: \(score)"
+        }
+    }
+
+    var editingMode: Bool = false {
+        didSet {
+            if editingMode {
+                editLabel.text = "Done"
+            } else {
+                editLabel.text = "Edit"
+            }
         }
     }
 
@@ -23,6 +40,7 @@ class GameScene: SKScene {
         addChild(background)
 
         addChild(scoreLabel)
+        addChild(editLabel)
 
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         physicsWorld.contactDelegate = self
