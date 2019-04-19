@@ -68,10 +68,29 @@ class GameScene: SKScene {
         }
 
         if editingMode {
-            // Create a box
+            createBox(at: location)
         } else {
             createBall(at: location)
         }
+    }
+
+    func createBox(at position: CGPoint) {
+        let size = CGSize(width: Int.random(in: 16...128), height: 16)
+        let color = UIColor(
+            red: CGFloat.random(in: 0...1),
+            green: CGFloat.random(in: 0...1),
+            blue: CGFloat.random(in: 0...1),
+            alpha: 1
+        )
+        let box = SKSpriteNode(color: color, size: size)
+
+        box.zRotation = CGFloat.random(in: 0...3)
+        box.position = position
+
+        box.physicsBody = SKPhysicsBody(rectangleOf: box.size)
+        box.physicsBody?.isDynamic = false
+
+        addChild(box)
     }
 
     func createBall(at position: CGPoint) {
