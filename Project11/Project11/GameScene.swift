@@ -90,6 +90,8 @@ class GameScene: SKScene {
         box.physicsBody = SKPhysicsBody(rectangleOf: box.size)
         box.physicsBody?.isDynamic = false
 
+        addSpin(to: box)
+
         addChild(box)
     }
 
@@ -128,9 +130,13 @@ class GameScene: SKScene {
         slotGlow.zPosition = 1
         addChild(slotGlow)
 
+        addSpin(to: slotGlow)
+    }
+
+    func addSpin(to node: SKNode) {
         let spin = SKAction.rotate(byAngle: .pi, duration: 10)
         let spinForever = SKAction.repeatForever(spin)
-        slotGlow.run(spinForever)
+        node.run(spinForever)
     }
 }
 
