@@ -96,7 +96,7 @@ class GameScene: SKScene {
     }
 
     func createBall(at position: CGPoint) {
-        let ball = SKSpriteNode(imageNamed: "ballRed")
+        let ball = SKSpriteNode(imageNamed: randomBallImageName())
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2.0)
         ball.physicsBody?.restitution = 0.4
         ball.physicsBody?.contactTestBitMask = ball.physicsBody?.collisionBitMask ?? 0
@@ -104,6 +104,20 @@ class GameScene: SKScene {
         ball.name = "ball"
         ball.zPosition = 3
         addChild(ball)
+    }
+
+    func randomBallImageName() -> String {
+        let balls = [
+            "ballRed",
+            "ballYellow",
+            "ballGreen",
+            "ballBlue",
+            "ballPurple",
+            "ballGrey",
+            "ballCyan"
+        ]
+
+        return balls.randomElement() ?? balls.first!
     }
 
     func makeBouncer(at position: CGPoint) {
