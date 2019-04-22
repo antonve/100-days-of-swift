@@ -7,6 +7,17 @@ class ViewController: UICollectionViewController {
         super.viewDidLoad()
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewPerson))
+
+        loadFromDisk()
+    }
+
+    func loadFromDisk() {
+        let defaults = UserDefaults.standard
+
+        guard let savedPeople = defaults.object(forKey: "people") as? Data else { return }
+        guard let decodedPeople = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedPeople) as? [Person] else { return }
+
+        people = decodedPeople
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -68,10 +79,20 @@ class ViewController: UICollectionViewController {
             guard let newName = ac?.textFields?[0].text else { return }
             person.name = newName
 
+            self?.save()
             self?.collectionView.reloadData()
         })
 
         present(ac, animated: true)
+    }
+
+    func save() {
+        guard let savedData = try? NSKeyedArchiver.archivedData(withRootObject: people, requiringSecureCoding: false) else {
+            return
+        }
+
+        let defaults = UserDefaults.standard
+        defaults.set(savedData, forKey: "people")
     }
 }
 
@@ -88,6 +109,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
 
         let person = Person(name: "Unknown", image: imageName)
         people.append(person)
+        save()
         collectionView.reloadData()
 
         dismiss(animated: true)
