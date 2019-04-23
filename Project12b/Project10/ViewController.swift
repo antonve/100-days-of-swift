@@ -6,6 +6,8 @@ class ViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        load()
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewPerson))
     }
 
@@ -68,10 +70,29 @@ class ViewController: UICollectionViewController {
             guard let newName = ac?.textFields?[0].text else { return }
             person.name = newName
 
+            self?.save()
             self?.collectionView.reloadData()
         })
 
         present(ac, animated: true)
+    }
+
+    func load() {
+        let defaults = UserDefaults.standard
+        guard let loadedPeople = defaults.object(forKey: "people") as? Data else { return }
+
+        let decoder = JSONDecoder()
+        guard let decodedPeople = try? decoder.decode([Person].self, from: loadedPeople) else { return }
+
+        people = decodedPeople
+    }
+
+    func save() {
+        let encoder = JSONEncoder()
+        guard let encodedPeople = try? encoder.encode(people) else { return }
+
+        let defaults = UserDefaults.standard
+        defaults.set(encodedPeople, forKey: "people")
     }
 }
 
@@ -88,6 +109,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
 
         let person = Person(name: "Unknown", image: imageName)
         people.append(person)
+        save()
         collectionView.reloadData()
 
         dismiss(animated: true)
