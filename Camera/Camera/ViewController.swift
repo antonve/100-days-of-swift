@@ -54,11 +54,6 @@ class ViewController: UITableViewController {
 
         save()
     }
-
-    private func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
-    }
 }
 
 extension ViewController {
@@ -70,10 +65,14 @@ extension ViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) else { fatalError() }
         cell.textLabel?.text = pictures[indexPath.row].caption
 
-        let image = getDocumentsDirectory().appendingPathComponent(pictures[indexPath.row].imageName)
-        cell.imageView?.image = UIImage(contentsOfFile: image.path)
+        cell.imageView?.image = pictures[indexPath.row].image
 
         return cell
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = PictureViewController(picture: pictures[indexPath.row])
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

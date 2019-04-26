@@ -13,6 +13,8 @@
 		11446F6B2272C7B900C75F83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11446F6A2272C7B900C75F83 /* Assets.xcassets */; };
 		11446F6E2272C7B900C75F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11446F6C2272C7B900C75F83 /* LaunchScreen.storyboard */; };
 		11A72A812272D310007DE3E2 /* Picture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A72A802272D310007DE3E2 /* Picture.swift */; };
+		11A72A832272E1F2007DE3E2 /* PictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A72A822272E1F2007DE3E2 /* PictureViewController.swift */; };
+		11A72A852272E403007DE3E2 /* Documents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A72A842272E403007DE3E2 /* Documents.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		11446F6D2272C7B900C75F83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		11446F6F2272C7B900C75F83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11A72A802272D310007DE3E2 /* Picture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Picture.swift; sourceTree = "<group>"; };
+		11A72A822272E1F2007DE3E2 /* PictureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureViewController.swift; sourceTree = "<group>"; };
+		11A72A842272E403007DE3E2 /* Documents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Documents.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,11 +62,13 @@
 			children = (
 				11446F632272C7B900C75F83 /* AppDelegate.swift */,
 				11446F652272C7B900C75F83 /* ViewController.swift */,
+				11A72A822272E1F2007DE3E2 /* PictureViewController.swift */,
 				11446F672272C7B900C75F83 /* Main.storyboard */,
 				11446F6A2272C7B900C75F83 /* Assets.xcassets */,
 				11446F6C2272C7B900C75F83 /* LaunchScreen.storyboard */,
 				11446F6F2272C7B900C75F83 /* Info.plist */,
 				11A72A802272D310007DE3E2 /* Picture.swift */,
+				11A72A842272E403007DE3E2 /* Documents.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -140,6 +146,8 @@
 			files = (
 				11A72A812272D310007DE3E2 /* Picture.swift in Sources */,
 				11446F662272C7B900C75F83 /* ViewController.swift in Sources */,
+				11A72A852272E403007DE3E2 /* Documents.swift in Sources */,
+				11A72A832272E1F2007DE3E2 /* PictureViewController.swift in Sources */,
 				11446F642272C7B900C75F83 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
