@@ -13,6 +13,14 @@ class ViewController: UITableViewController {
     func setupView() {
         title = "Camera App"
         navigationController?.navigationBar.prefersLargeTitles = true
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(startCamera))
+    }
+
+    @objc func startCamera() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        present(vc, animated: true)
     }
 }
 
