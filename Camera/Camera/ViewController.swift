@@ -36,6 +36,9 @@ extension ViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) else { fatalError() }
         cell.textLabel?.text = pictures[indexPath.row].caption
 
+        let data = try! Data(contentsOf: pictures[indexPath.row].url)
+        cell.imageView?.image = UIImage(data: data)
+
         return cell
     }
 }
