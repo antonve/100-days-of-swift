@@ -55,8 +55,28 @@ class ViewController: UITableViewController {
         save()
     }
 
-    func presentEditCaption(for picture: Picture) {
+    func updatePictureCaption(_ picture: Picture) {
+        pictures = pictures.map { p in
+            p.imageName == picture.imageName ? picture : p
+        }
+        tableView.reloadData()
+        save()
+    }
 
+    func presentEditCaption(for picture: Picture) {
+        let ac = UIAlertController(title: "Edit caption", message: nil, preferredStyle: .alert)
+        ac.addTextField()
+
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        ac.addAction(UIAlertAction(title: "Save", style: .default) { [weak self, weak ac] _ in
+            guard let self = self else { return }
+            guard let caption = ac?.textFields?[0].text else { return }
+
+            let newPicture = Picture(imageName: picture.imageName, caption: caption)
+            self.updatePictureCaption(newPicture)
+        })
+
+        present(ac, animated: true)
     }
 }
 
