@@ -54,6 +54,10 @@ class ViewController: UITableViewController {
 
         save()
     }
+
+    func presentEditCaption(for picture: Picture) {
+
+    }
 }
 
 extension ViewController {
@@ -73,6 +77,17 @@ extension ViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = PictureViewController(picture: pictures[indexPath.row])
         navigationController?.pushViewController(vc, animated: true)
+    }
+
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let edit = UITableViewRowAction(style: .normal, title: "Edit") { [weak self] (_, _) in
+            guard let self = self else { return }
+            self.presentEditCaption(for: self.pictures[indexPath.row])
+        }
+
+        edit.backgroundColor = .green
+
+        return [edit]
     }
 }
 
