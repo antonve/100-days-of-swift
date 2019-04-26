@@ -63,6 +63,12 @@ class ViewController: UITableViewController {
         save()
     }
 
+    func deletePicture(_ pictureIndex: Int) {
+        pictures.remove(at: pictureIndex)
+        tableView.reloadData()
+        save()
+    }
+
     func presentEditCaption(for picture: Picture) {
         let ac = UIAlertController(title: "Edit caption", message: nil, preferredStyle: .alert)
         ac.addTextField()
@@ -74,6 +80,18 @@ class ViewController: UITableViewController {
 
             let newPicture = Picture(imageName: picture.imageName, caption: caption)
             self.updatePictureCaption(newPicture)
+        })
+
+        present(ac, animated: true)
+    }
+
+    func presentDeleteWarning(pictureIndex: Int) {
+        let ac = UIAlertController(title: "Are you sure you want to delete this picture?", message: nil, preferredStyle: .alert)
+
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        ac.addAction(UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            guard let self = self else { return }
+            self.deletePicture(pictureIndex)
         })
 
         present(ac, animated: true)
@@ -105,9 +123,14 @@ extension ViewController {
             self.presentEditCaption(for: self.pictures[indexPath.row])
         }
 
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { [weak self] (_, _) in
+            guard let self = self else { return }
+            self.presentDeleteWarning(pictureIndex: indexPath.row)
+        }
+
         edit.backgroundColor = .green
 
-        return [edit]
+        return [edit, delete]
     }
 }
 
