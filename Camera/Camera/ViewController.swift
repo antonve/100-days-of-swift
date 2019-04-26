@@ -20,6 +20,9 @@ class ViewController: UITableViewController {
     @objc func startCamera() {
         let vc = UIImagePickerController()
         vc.sourceType = .camera
+        vc.delegate = self
+        vc.allowsEditing = true
+
         present(vc, animated: true)
     }
 }
@@ -34,5 +37,41 @@ extension ViewController {
         cell.textLabel?.text = pictures[indexPath.row].caption
 
         return cell
+    }
+}
+
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.editedImage] as? UIImage else { return }
+        guard let url = saveImage(image) else { return }
+
+        let picture = Picture(url: url, caption: "N/A")
+
+        pictures.insert(picture, at: 0)
+        tableView.performBatchUpdates({ [weak self] in
+            self?.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        })
+
+        dismiss(animated: true)
+    }
+
+    private func saveImage(_ image: UIImage) -> URL? {
+        let name = UUID().uuidString
+        let imagePath = getDocumentsDirectory().appendingPathComponent(name)
+
+        guard let data = image.jpegData(compressionQuality: 0.8) else { return nil }
+
+        do {
+            try data.write(to: imagePath)
+        } catch {
+            return nil
+        }
+
+        return imagePath
+    }
+
+    private func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
     }
 }
