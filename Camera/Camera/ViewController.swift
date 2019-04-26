@@ -25,6 +25,13 @@ class ViewController: UITableViewController {
 
         present(vc, animated: true)
     }
+
+    func addPicture(_ picture: Picture) {
+        pictures.insert(picture, at: 0)
+        tableView.performBatchUpdates({ [weak self] in
+            self?.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        })
+    }
 }
 
 extension ViewController {
@@ -50,10 +57,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
 
         let picture = Picture(url: url, caption: "N/A")
 
-        pictures.insert(picture, at: 0)
-        tableView.performBatchUpdates({ [weak self] in
-            self?.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-        })
+        addPicture(picture)
 
         dismiss(animated: true)
     }
