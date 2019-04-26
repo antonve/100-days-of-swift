@@ -1,6 +1,6 @@
 import Foundation
 
-struct Picture {
-    let url: URL
+struct Picture: Codable {
+    let imageName: String
     let caption: String
 }

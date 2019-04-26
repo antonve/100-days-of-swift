@@ -3,11 +3,13 @@ import UIKit
 class ViewController: UITableViewController {
     var pictures: [Picture] = [Picture]()
     let cellIdentifier = "Cell"
+    let storageKey = "pictures"
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupView()
+        restore()
     }
 
     func setupView() {
@@ -15,6 +17,24 @@ class ViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(startCamera))
+    }
+
+    func restore() {
+        let defaults = UserDefaults.standard
+        let decoder = JSONDecoder()
+
+        guard let data = defaults.object(forKey: storageKey) as? Data else { return }
+        guard let pictures = try? decoder.decode([Picture].self, from: data) else { return }
+
+        self.pictures = pictures
+    }
+
+    func save() {
+        let defaults = UserDefaults.standard
+        let encoder = JSONEncoder()
+
+        guard let data = try? encoder.encode(pictures) else { return }
+        defaults.set(data, forKey: storageKey)
     }
 
     @objc func startCamera() {
@@ -31,6 +51,13 @@ class ViewController: UITableViewController {
         tableView.performBatchUpdates({ [weak self] in
             self?.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         })
+
+        save()
+    }
+
+    private func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
     }
 }
 
@@ -43,8 +70,8 @@ extension ViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) else { fatalError() }
         cell.textLabel?.text = pictures[indexPath.row].caption
 
-        let data = try! Data(contentsOf: pictures[indexPath.row].url)
-        cell.imageView?.image = UIImage(data: data)
+        let image = getDocumentsDirectory().appendingPathComponent(pictures[indexPath.row].imageName)
+        cell.imageView?.image = UIImage(contentsOfFile: image.path)
 
         return cell
     }
@@ -53,16 +80,16 @@ extension ViewController {
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
-        guard let url = saveImage(image) else { return }
+        guard let imageName = saveImage(image) else { return }
 
-        let picture = Picture(url: url, caption: "N/A")
+        let picture = Picture(imageName: imageName, caption: "N/A")
 
         addPicture(picture)
 
         dismiss(animated: true)
     }
 
-    private func saveImage(_ image: UIImage) -> URL? {
+    private func saveImage(_ image: UIImage) -> String? {
         let name = UUID().uuidString
         let imagePath = getDocumentsDirectory().appendingPathComponent(name)
 
@@ -74,11 +101,6 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
             return nil
         }
 
-        return imagePath
-    }
-
-    private func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
+        return name
     }
 }
