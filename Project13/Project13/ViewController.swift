@@ -39,7 +39,8 @@ class ViewController: UIViewController {
     func applyProcessing() {
         currentFilter.setValue(intensity.value, forKey: kCIInputIntensityKey)
 
-        guard let cgImage = context.createCGImage(currentFilter.outputImage!, from: currentFilter.outputImage!.extent) else { return }
+        guard let outputImage = currentFilter.outputImage else { return }
+        guard let cgImage = context.createCGImage(outputImage, from: outputImage.extent) else { return }
 
         let processedImage = UIImage(cgImage: cgImage)
         imageView.image = processedImage
