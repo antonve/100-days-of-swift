@@ -58,6 +58,26 @@ class ViewController: UIViewController {
     }
 
     @IBAction func save(_ sender: Any) {
+        print(imageView.image == nil)
+        guard let image = imageView.image else { return }
+
+        UIImageWriteToSavedPhotosAlbum(
+            image,
+            self,
+            #selector(image(_:didFinishSavingWithError:contextInfo:)),
+            nil
+        )
+    }
+
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        let ac = UIAlertController(
+            title: error == nil ? "Saved!" : "Save error",
+            message: error?.localizedDescription ?? " Your filtered image has been saved to your photos.",
+            preferredStyle: .alert
+        )
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+
+        present(ac, animated: true)
     }
 
     @IBAction func intensityChanged(_ sender: Any) {
